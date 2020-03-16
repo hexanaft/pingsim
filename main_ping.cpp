@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
         switch (opt) {
             case 'h': {
                 display_usage();
+                return 0;
             } break;
 
             case 's': {
