@@ -34,14 +34,42 @@ jobs:
             cc: "gcc",
             cxx: "g++"
           }
-        - {name: "qwe1", os: windows-latest}
-        - {name: "qwe2", os: windows-latest}
-        - {name: "qwe3", os: windows-latest}
+        - {
+            name: "Ubuntu Latest GCC",
+            os: ubuntu-latest,
+            artifact: "ubuntu_gcc.7z",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++"
+          }
+        - {
+            name: "macOS Latest Clang",
+            os: macos-latest,
+            artifact: "macos_clang.7z",
+            build_type: "Release",
+            cc: "clang",
+            cxx: "clang++"
+          }
         #os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
-      #- uses: actions/checkout@v2
+      - uses: actions/checkout@v1
+
       - name: Run a one-line script
         run: echo Hello, world!
+
+      - name: Configure
+        shell: cmake -P {0}
+        run: |
+          echo Hello, world!
+          execute_process(
+              COMMAND cmake
+                -S .
+                -B build
+                -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+                -G Make
+              RESULT_VARIABLE result
+            )
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     #steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
