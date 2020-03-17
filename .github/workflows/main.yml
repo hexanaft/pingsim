@@ -17,7 +17,23 @@ jobs:
       fail-fast: false
       matrix:
         config: 
-        - {name: "qwe0", os: windows-latest}
+        - {
+            name: "Windows Latest MSVC",
+            os: windows-latest,
+            artifact: "windows_msvc.7z",
+            build_type: "Release",
+            cc: "cl",
+            cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+        - {
+            name: "Windows Latest MinGW",
+            os: windows-latest,
+            artifact: "windows_mingw.7z",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++"
+          }
         - {name: "qwe1", os: windows-latest}
         - {name: "qwe2", os: windows-latest}
         - {name: "qwe3", os: windows-latest}
