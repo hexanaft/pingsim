@@ -60,13 +60,12 @@ jobs:
       - name: Configure
         shell: cmake -P {0}
         run: |
-          echo Hello2
+          ls -la
           execute_process(
               COMMAND cmake
                 -S .
                 -B build
                 -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
-                -G Make
               RESULT_VARIABLE result
             )
 
