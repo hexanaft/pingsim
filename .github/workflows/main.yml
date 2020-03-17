@@ -11,8 +11,8 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    #name: ${ { matrix.config.name } }
-    runs-on: ${{ matrix.os }} # будет запускаться по очереди на всех типах машин
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }} # будет запускаться по очереди на всех типах машин
     strategy:
       fail-fast: false
       matrix:
@@ -23,7 +23,7 @@ jobs:
         - {name: "qwe3", os: windows-latest}
         #os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
-      - uses: actions/checkout@v2
+      #- uses: actions/checkout@v2
       - name: Run a one-line script
         run: echo Hello, world!
     # Steps represent a sequence of tasks that will be executed as part of the job
