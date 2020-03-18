@@ -94,9 +94,9 @@ jobs:
 
       - name: Pack
         working-directory: instdir
-        run: |
-          7z --help
-          tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
+        run:
+          7z a ../${{ matrix.config.artifact }} .
+          #tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
           
 
       - name: Upload
