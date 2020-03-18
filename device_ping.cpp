@@ -2,6 +2,7 @@
 
 #ifdef _MSC_VER
 	#define __WIN32__ 1
+	#include <process.h>
 #endif
 
 #ifdef __WIN32__
@@ -334,7 +335,12 @@ bool dev_ping::Impl::deinit()
 bool dev_ping::Impl::send_icmp()
 {
     char *data = m_send_packet;
+#ifdef _MSC_VER
+    uint16_t pid = _getpid() & 0xFFFF;
+#else
     uint16_t pid = getpid() & 0xFFFF;
+#endif
+	
 
     int size = m_ping_size_payload + sizeof(ICMPHeader) + sizeof(timeval); // MTU
 
