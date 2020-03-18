@@ -69,7 +69,7 @@ jobs:
           execute_process(COMMAND cmake
             -S .
             -B .
-            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
+            -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
             -G "${{ matrix.config.generators }}"
             -DCMAKE_INSTALL_PREFIX:PATH=instdir
             RESULT_VARIABLE result
@@ -94,7 +94,9 @@ jobs:
 
       - name: Pack
         working-directory: instdir
-        run: cmake -E tar cJfv ../${{ matrix.config.artifact }} .
+        run: |
+          cmake -E tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
+          7z --help
 
       - name: Upload
         uses: actions/upload-artifact@v1
