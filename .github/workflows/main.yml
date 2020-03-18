@@ -51,11 +51,11 @@ jobs:
         - {
             name: "macOS Latest Clang",
             os: macos-latest,
-            artifact: "macos_clang.tgz",
+            artifact: "macos_clang.tar.gz",
             build_type: "Release",
             cc: "clang",
             cxx: "clang++",
-            archiver: "tar --create --auto-compress",
+            archiver: "tar cJfv",
             generators: "Unix Makefiles"
           }
 
