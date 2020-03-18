@@ -33,3 +33,8 @@
 
 # Qt
 *.user
+/CMakeCache.txt
+/*.vcxproj
+/CMakeFiles
+/*.filters
+/build

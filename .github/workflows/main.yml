@@ -54,20 +54,23 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Run a multi-line script
+      - name: Build cmake
         run: |
-          echo "Add other actions to build,"
-          echo "test, and deploy your project."
+          execute_process(COMMAND cmake --version)
+          execute_process(COMMAND cmake 
+            -S .
+            --build build
+          )
 
       - name: Run a one-line script
         shell: cmake -P {0}
         run: |
           if ("${{ runner.os }}" STREQUAL "Windows")
-            execute_process(COMMAND dir)
+            execute_process(COMMAND dir /S)
           elseif ("${{ runner.os }}" STREQUAL "Linux")
-            execute_process(COMMAND ls -la)
+            execute_process(COMMAND ls -laR)
           elseif ("${{ runner.os }}" STREQUAL "macOS")
-            execute_process(COMMAND ls -la)
+            execute_process(COMMAND ls -laR)
           endif()
 
 #       - name: Configure
