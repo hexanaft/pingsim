@@ -56,9 +56,13 @@ jobs:
 
       - name: Build cmake
         run: |
-          execute_process(COMMAND cmake --version)
-          execute_process(COMMAND cmake 
+          execute_process(cmake --version)
+          execute_process(mkdir build)
+          execute_process(cmake 
             -S .
+            -B build
+          )
+          execute_process(cmake 
             --build build
           )
 
