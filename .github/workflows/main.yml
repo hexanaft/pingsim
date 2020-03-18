@@ -69,7 +69,7 @@ jobs:
           execute_process(COMMAND cmake
             -S .
             -B .
-            -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+            -D CMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
             -G "${{ matrix.config.generators }}"
             -DCMAKE_INSTALL_PREFIX:PATH=instdir
             RESULT_VARIABLE result
