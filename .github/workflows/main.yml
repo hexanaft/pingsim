@@ -94,13 +94,12 @@ jobs:
 
       - name: Pack
         working-directory: instdir
-        shell: cmake -P {0}
-        run:
-          if ("${{ runner.os }}" STREQUAL "macOS")
-            execute_process(COMMAND ${CMAKE_COMMAND} -E `7za a ../${{ matrix.config.artifact }} .`)
-          else()
-            execute_process(COMMAND ${CMAKE_COMMAND} -E `7z a ../${{ matrix.config.artifact }} .`)
-          endif()
+        run: |
+          if [[ "${{ runner.os }}" == "macOS" ]]; then
+            7za a ../${{ matrix.config.artifact }} .
+          else
+            7z a ../${{ matrix.config.artifact }} .
+          fi
 
       - name: Upload
         uses: actions/upload-artifact@v1
