@@ -95,7 +95,7 @@ jobs:
       - name: Pack
         working-directory: instdir
         run: |
-          cmake -E tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
+          tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
           7z --help
 
       - name: Upload
