@@ -34,7 +34,16 @@ jobs:
             build_type: "Release",
             cc: "gcc",
             cxx: "g++",
-            generators: "MinGW Makefiles"
+            generators: "MSYS Makefiles"
+          }
+        - {
+            name: "Windows Latest MinGW1",
+            os: windows-latest,
+            artifact: "windows_mingw.7z",
+            build_type: "Release",
+            cc: "gcc",
+            cxx: "g++",
+            generators: "Ninja"
           }
         - {
             name: "Ubuntu Latest GCC",
