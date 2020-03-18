@@ -94,11 +94,14 @@ jobs:
 
       - name: Pack
         working-directory: instdir
+        shell: cmake -P {0}
         run:
-          7z a ../${{ matrix.config.artifact }} .
-          #tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
+          if ("${{ runner.os }}" STREQUAL "macOS")
+            7za a ../${{ matrix.config.artifact }} .
+          else()
+            7z  a ../${{ matrix.config.artifact }} .
+          endif()
           
-
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
