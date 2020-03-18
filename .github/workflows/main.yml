@@ -82,7 +82,7 @@ jobs:
         shell: cmake -P {0}
         run: |
           execute_process(COMMAND cmake 
-            --build .
+            --build . --config ${{ matrix.config.build_type }}
             RESULT_VARIABLE result
           )
           if (NOT result EQUAL 0)
@@ -95,8 +95,9 @@ jobs:
       - name: Pack
         working-directory: instdir
         run: |
-          tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
           7z --help
+          tar --create f --auto-compress --verbose ../${{ matrix.config.artifact }} .
+          
 
       - name: Upload
         uses: actions/upload-artifact@v1
