@@ -218,7 +218,7 @@ bool dev_ping::Impl::init_socket()
 #else
 #ifdef __APPLE__
     int val = 1;
-    if (setsockopt(sock, SOL_IP, IP_DONTFRAGMENT, (char *)&val, sizeof(val)) < 0) {
+    if (setsockopt(sock, SOL_IP, IP_HDRINCL, (char *)&val, sizeof(val)) < 0) {
 #else // UNIX
     int val = IP_PMTUDISC_DO;
     if (setsockopt(sock, SOL_IP, IP_MTU_DISCOVER , &val, sizeof(val)) < 0) {
