@@ -1,6 +1,6 @@
 #include "device_ping.h"
 
-#ifdef _MSVC
+#ifdef _MSC_VER
 	#define __WIN32__ 1
 #endif
 
@@ -271,7 +271,7 @@ bool dev_ping::Impl::init()
 {
     status.clear();
     // ====================================================================
-#ifdef WIN32
+#ifdef __WIN32__
     if (!wsa_is_init) {
         WSADATA wsadata;
         int err = WSAStartup(MAKEWORD(2,0), &wsadata);
@@ -298,7 +298,7 @@ bool dev_ping::Impl::deinit()
     }
     // 3 ====================================================================
     if (socket_is_init) {
-#ifdef WIN32
+#ifdef __WIN32__
         int32_t err = closesocket(sock);
         if (err) {
             status.append("Ping:        WSA closesocket failed error " + std::to_string(err) +" !\n");
@@ -317,7 +317,7 @@ bool dev_ping::Impl::deinit()
 #endif
     }
     // ====================================================================
-#ifdef WIN32
+#ifdef __WIN32__
     if (wsa_is_init) {
         int err = WSACleanup();
         if (err != 0) {
@@ -345,7 +345,7 @@ bool dev_ping::Impl::send_icmp()
     pkt->id         = htons(pid);
     pkt->sequence   = htons(m_ping_seq_num);
 
-#if WIN32
+#ifdef __WIN32__
     LARGE_INTEGER StartingTime;
     QueryPerformanceCounter(&StartingTime);
     uint64_t time = StartingTime.QuadPart;
@@ -445,7 +445,7 @@ bool dev_ping::Impl::recv_icmp(uint32_t timeout_ms, result_t *result)
                 uint16_t icmpseq    = ntohs(icmp->sequence);
                 uint8_t  ttl        = ip->ip_ttl;
                 uint16_t icmp_len   = len;
-#if WIN32
+#ifdef __WIN32__
                 LARGE_INTEGER Frequency;
                 QueryPerformanceFrequency(&Frequency);
                 LARGE_INTEGER  EndingTime;
@@ -457,7 +457,7 @@ bool dev_ping::Impl::recv_icmp(uint32_t timeout_ms, result_t *result)
 #endif
                 uint64_t time_send;
                 memcpy(&time_send, &data[iphdrlen + sizeof (ICMPHeader)], sizeof (time_send));
-#if WIN32
+#ifdef __WIN32__
                 uint64_t time_elapsed = time_recv - time_send;
                 time_elapsed *=  1000000;
                 time_elapsed /= Frequency.QuadPart;
