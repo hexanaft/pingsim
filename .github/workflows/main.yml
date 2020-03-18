@@ -57,8 +57,8 @@ jobs:
       - name: Configure
         shell: cmake -P {0}
         run: |
-          set(ENV{CC} ${ { matrix.config.cc } })
-          set(ENV{CXX} ${ { matrix.config.cxx } })
+          set(ENV{CC} ${{ matrix.config.cc }})
+          set(ENV{CXX} ${{ matrix.config.cxx }})
           execute_process(COMMAND cmake --version)
           execute_process(COMMAND mkdir build)
           execute_process(COMMAND cmake
@@ -70,7 +70,7 @@ jobs:
           if (NOT result EQUAL 0)
             message(FATAL_ERROR "Bad exit status")
           endif()
-          
+
       - name: Build
         shell: cmake -P {0}
         run: |
@@ -81,6 +81,9 @@ jobs:
           if (NOT result EQUAL 0)
             message(FATAL_ERROR "Bad exit status")
           endif()
+
+      - name: Install Strip
+        run: cmake --install build --prefix instdir --strip
 
       - name: Run a one-line script
         shell: cmake -P {0}
