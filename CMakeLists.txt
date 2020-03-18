@@ -16,3 +16,5 @@ if (WIN32)
 else()
     target_link_libraries(${PROJECT_NAME} pthread)
 endif()
+
+install(TARGETS ${PROJECT_NAME})
