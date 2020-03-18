@@ -54,7 +54,7 @@ jobs:
             cxx: "clang++",
             generators: "Unix Makefiles"
           }
-        #os: [ubuntu-latest, windows-latest, macOS-latest]
+
     steps:
       - uses: actions/checkout@v1
 
@@ -70,7 +70,7 @@ jobs:
             -S .
             -B .
             -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
-            -G ${{ matrix.config.generators }}
+            -G "${{ matrix.config.generators }}"
             -DCMAKE_INSTALL_PREFIX:PATH=instdir
             RESULT_VARIABLE result
           )
