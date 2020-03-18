@@ -85,7 +85,7 @@ jobs:
           endif()
 
       - name: Install Strip
-        run: cmake --install
+        run: cmake --install . --strip
 
       - name: Pack
         working-directory: instdir
