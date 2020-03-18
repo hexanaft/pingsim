@@ -84,17 +84,27 @@ jobs:
 
       - name: Install Strip
         run: cmake --install build --prefix instdir --strip
+        
+      - name: Pack
+        working-directory: instdir
+        run: cmake -E tar cJfv ../${{ matrix.config.artifact }} .
 
-      - name: Run a one-line script
-        shell: cmake -P {0}
-        run: |
-          if ("${{ runner.os }}" STREQUAL "Windows")
-            execute_process(COMMAND dir /S)
-          elseif ("${{ runner.os }}" STREQUAL "Linux")
-            execute_process(COMMAND ls -laR)
-          elseif ("${{ runner.os }}" STREQUAL "macOS")
-            execute_process(COMMAND ls -laR)
-          endif()
+      - name: Upload
+        uses: actions/upload-artifact@v1
+        with:
+          path: ./${{ matrix.config.artifact }}
+          name: ${{ matrix.config.artifact }}
+
+      # - name: Run a one-line script
+      #   shell: cmake -P {0}
+      #   run: |
+      #     if ("${{ runner.os }}" STREQUAL "Windows")
+      #       execute_process(COMMAND dir /S)
+      #     elseif ("${{ runner.os }}" STREQUAL "Linux")
+      #       execute_process(COMMAND ls -laR)
+      #     elseif ("${{ runner.os }}" STREQUAL "macOS")
+      #       execute_process(COMMAND ls -laR)
+      #     endif()
 
 #       - name: Configure
 #         shell: cmake -P {0}
