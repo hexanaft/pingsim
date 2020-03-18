@@ -47,6 +47,11 @@
  * https://stackoverflow.com/questions/43239862/socket-sock-raw-ipproto-icmp-cant-read-ttl-response
  *
  */
+ 
+/* For Mac OS X and FreeBSD */
+#ifndef SOL_IP
+	#define SOL_IP IPPROTO_IP
+#endif
 
 /*  ICMPv4 type codes  */
 #define ICMP_ECHOREPLY 0
@@ -207,12 +212,12 @@ bool dev_ping::Impl::init_socket()
         return false;
     }
 
-#ifdef __WIN32__
+#ifdef __WIN32__ || __APPLE__
     int val = 1;
-    if (setsockopt(sock, IPPROTO_IP, IP_DONTFRAGMENT, (char *)&val, sizeof(val)) < 0) {
+    if (setsockopt(sock, SOL_IP, IP_DONTFRAGMENT, (char *)&val, sizeof(val)) < 0) {
 #else
     int val = IP_PMTUDISC_DO;
-    if (setsockopt(sock, IPPROTO_IP, IP_MTU_DISCOVER , &val, sizeof(val)) < 0) {
+    if (setsockopt(sock, SOL_IP, IP_MTU_DISCOVER , &val, sizeof(val)) < 0) {
 #endif
         status.append("Ping:        Failed to setsockopt2!\n");
         deinit();
