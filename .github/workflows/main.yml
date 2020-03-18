@@ -97,11 +97,11 @@ jobs:
         shell: cmake -P {0}
         run:
           if ("${{ runner.os }}" STREQUAL "macOS")
-            7za a ../${{ matrix.config.artifact }} .
+            execute_process(COMMAND 7za a ../${{ matrix.config.artifact }} .)
           else()
-            7z  a ../${{ matrix.config.artifact }} .
+            execute_process(COMMAND 7z a ../${{ matrix.config.artifact }} .)
           endif()
-          
+
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
