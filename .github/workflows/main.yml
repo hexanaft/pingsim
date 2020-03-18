@@ -97,9 +97,17 @@ jobs:
         shell: cmake -P {0}
         run:
           if ("${{ runner.os }}" STREQUAL "macOS")
-            execute_process(COMMAND 7za a ../${{ matrix.config.artifact }} .)
+            execute_process(COMMAND 7za 
+              a 
+              ../${{ matrix.config.artifact }} 
+              .
+            )
           else()
-            execute_process(COMMAND 7z a ../${{ matrix.config.artifact }} .)
+            execute_process(COMMAND 7z 
+              a 
+              ../${{ matrix.config.artifact }} 
+              .
+            )
           endif()
 
       - name: Upload
