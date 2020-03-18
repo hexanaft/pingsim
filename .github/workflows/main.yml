@@ -60,20 +60,19 @@ jobs:
           echo "test, and deploy your project."
 
       - name: Run a one-line script
+        shell: cmake -P {0}
         run: |
-          message(STATUS "Runner OS: ${{ runner.os }}")
           if ("${{ runner.os }}" STREQUAL "Windows")
-            dir
+            execute_process(COMMAND dir)
           elseif ("${{ runner.os }}" STREQUAL "Linux")
-            ls -la
+            execute_process(COMMAND ls -la)
           elseif ("${{ runner.os }}" STREQUAL "macOS")
-            ls -la
+            execute_process(COMMAND ls -la)
           endif()
 
 #       - name: Configure
 #         shell: cmake -P {0}
 #         run: |
-#           ls -la
 #           execute_process(
 #               COMMAND cmake
 #                 -S .
