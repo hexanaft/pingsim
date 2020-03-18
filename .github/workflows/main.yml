@@ -55,19 +55,27 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Run a one-line script
-        run: echo Hello1
-
-      - name: Configure
-        shell: cmake -P {0}
         run: |
-          ls -la
-          execute_process(
-              COMMAND cmake
-                -S .
-                -B build
-                -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
-              RESULT_VARIABLE result
-            )
+          message(STATUS "Runner OS: ${{ runner.os }}")
+          if ("${{ runner.os }}" STREQUAL "Windows")
+            dir
+          elseif ("${{ runner.os }}" STREQUAL "Linux")
+            ls -la
+          elseif ("${{ runner.os }}" STREQUAL "macOS")
+            ls -la
+          endif()
+
+#       - name: Configure
+#         shell: cmake -P {0}
+#         run: |
+#           ls -la
+#           execute_process(
+#               COMMAND cmake
+#                 -S .
+#                 -B build
+#                 -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+#               RESULT_VARIABLE result
+#             )
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     #steps:
