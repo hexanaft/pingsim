@@ -54,15 +54,18 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Build cmake
+      - name: Configure
+        shell: cmake -P {0}
         run: |
-          execute_process(cmake --version)
-          execute_process(mkdir build)
-          execute_process(cmake 
+          execute_process(COMMAND cmake --version)
+          execute_process(COMMAND mkdir build)
+          execute_process(COMMAND cmake
             -S .
             -B build
+            -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+            RESULT_VARIABLE result
           )
-          execute_process(cmake 
+          execute_process(COMMAND cmake 
             --build build
           )
 
