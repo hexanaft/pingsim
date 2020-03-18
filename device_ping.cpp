@@ -1,6 +1,10 @@
 #include "device_ping.h"
 
-#if __WIN32__
+#ifdef _MSVC
+	#define __WIN32__ 1
+#endif
+
+#ifdef __WIN32__
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <mstcpip.h>
