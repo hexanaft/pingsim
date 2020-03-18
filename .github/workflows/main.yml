@@ -24,7 +24,8 @@ jobs:
             build_type: "Release",
             cc: "cl",
             cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+            generators: "Visual Studio 16 2019"
           }
         - {
             name: "Windows Latest MinGW",
@@ -32,7 +33,8 @@ jobs:
             artifact: "windows_mingw.7z",
             build_type: "Release",
             cc: "gcc",
-            cxx: "g++"
+            cxx: "g++",
+            generators: "MinGW Makefiles"
           }
         - {
             name: "Ubuntu Latest GCC",
@@ -40,7 +42,8 @@ jobs:
             artifact: "ubuntu_gcc.7z",
             build_type: "Release",
             cc: "gcc",
-            cxx: "g++"
+            cxx: "g++",
+            generators: "Unix Makefiles"
           }
         - {
             name: "macOS Latest Clang",
@@ -48,7 +51,8 @@ jobs:
             artifact: "macos_clang.7z",
             build_type: "Release",
             cc: "clang",
-            cxx: "clang++"
+            cxx: "clang++",
+            generators: "Unix Makefiles"
           }
         #os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
@@ -66,6 +70,7 @@ jobs:
             -S .
             -B .
             -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
+            -G ${{ matrix.config.generators }}
             -DCMAKE_INSTALL_PREFIX:PATH=instdir
             RESULT_VARIABLE result
           )
