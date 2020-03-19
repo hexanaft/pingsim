@@ -36,7 +36,7 @@ jobs:
             cc: "gcc",
             cxx: "g++",
             archiver: "7z a",
-            generators: "MSYS Makefiles"
+            generators: "Ninja"
           }
         - {
             name: "Ubuntu Latest GCC",
@@ -46,7 +46,7 @@ jobs:
             cc: "gcc",
             cxx: "g++",
             archiver: "7z a",
-            generators: "Unix Makefiles"
+            generators: "Ninja"
           }
         - {
             name: "macOS Latest Clang",
@@ -55,8 +55,8 @@ jobs:
             build_type: "Release",
             cc: "clang",
             cxx: "clang++",
-            archiver: "tar cJfv",
-            generators: "Unix Makefiles"
+            archiver: "7za x",
+            generators: "Ninja"
           }
 
     steps:
@@ -84,7 +84,7 @@ jobs:
           brew install p7zip cmake ninja
           ninja --version
           cmake --version
-
+          
       # - name: Configure
       #   shell: bash
       #   run: |
