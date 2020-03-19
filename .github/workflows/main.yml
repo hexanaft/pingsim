@@ -71,6 +71,7 @@ jobs:
           choco install ninja cmake
           ninja --version
           cmake --version
+          cmd "${{ matrix.config.artifact }}"
 
       - name: Install dependencies on ubuntu
         if: startsWith(matrix.config.os, 'ubuntu')
