@@ -4,7 +4,10 @@
 name: CMake Build Matrix
 
 # Controls when the action will run. Triggers the workflow on push
-on: [push]
+on:
+  push:
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -88,7 +91,6 @@ jobs:
       - name: Configure
         shell: bash
         run: |
-          cmake --version
           mkdir build
           mkdir instdir
           cmake \
@@ -98,38 +100,12 @@ jobs:
             -G "${{ matrix.config.generators }}" \
             -DCMAKE_INSTALL_PREFIX:PATH=instdir
 
-      # - name: Configure
-      #   shell: cmake -P {0}
-      #   run: |
-      #     set(ENV{CC} ${{ matrix.config.cc }})
-      #     set(ENV{CXX} ${{ matrix.config.cxx }})
-      #     execute_process(COMMAND cmake --version)
-      #     execute_process(COMMAND mkdir build)
-      #     execute_process(COMMAND mkdir instdir)
-      #     execute_process(COMMAND cmake
-      #       -S .
-      #       -B .
-      #       -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
-      #       -G "${{ matrix.config.generators }}"
-      #       -DCMAKE_INSTALL_PREFIX:PATH=instdir
-      #       RESULT_VARIABLE result
-      #     )
-      #     if (NOT result EQUAL 0)
-      #       message(FATAL_ERROR "Bad exit status")
-      #     endif()
-
       - name: Build
-        shell: cmake -P {0}
-        run: |
-          execute_process(COMMAND cmake 
-            --build . --config ${{ matrix.config.build_type }}
-            RESULT_VARIABLE result
-          )
-          if (NOT result EQUAL 0)
-            message(FATAL_ERROR "Bad exit status")
-          endif()
+        shell: bash
+        run: cmake --build . --config ${{ matrix.config.build_type }}
 
       - name: Install Strip
+        shell: bash
         run: cmake --install . --strip
 
       - name: Pack
@@ -146,8 +122,8 @@ jobs:
           name: ${{ matrix.config.artifact }}
 
       - name: Upload release asset
-        if: github.event.action == 'published'
-        uses: actions/upload-release-asset@v1.0.1
+        #if: github.event.action == 'published'
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
