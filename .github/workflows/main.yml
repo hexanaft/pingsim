@@ -60,7 +60,28 @@ jobs:
           }
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies on windows
+        if: startsWith(matrix.config.os, 'windows')
+        run: choco install ninja cmake
+
+      - name: Install dependencies on ubuntu
+        if: startsWith(matrix.config.os, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install ninja-build
+
+      - name: Install dependencies on macos
+        if: startsWith(matrix.config.os, 'macos')
+        run: brew install p7zip cmake
+
+      # - name: Configure
+      #   shell: bash
+      #   run: |
+      #     cmake --version
+      #     mkdir build
+      #     mkdir instdir
 
       - name: Configure
         shell: cmake -P {0}
