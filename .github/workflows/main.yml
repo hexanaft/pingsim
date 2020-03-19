@@ -74,7 +74,7 @@ jobs:
           choco install ninja cmake
           ninja --version
           cmake --version
-          cmd "${{ matrix.config.environment_script }}"
+        # cmd "${{ matrix.config.environment_script }}"
 
       - name: Install dependencies on ubuntu
         if: startsWith(matrix.config.os, 'ubuntu')
@@ -83,6 +83,12 @@ jobs:
           sudo apt-get install ninja-build cmake
           ninja --version
           cmake --version
+        # sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        # sudo apt-get update
+        # sudo apt-get install gcc-9 g++-9
+        # gcc-9 --version
+        # gcc --version
+        # 📦 🐍
 
       - name: Install dependencies on macos
         if: startsWith(matrix.config.os, 'macos')
@@ -125,7 +131,7 @@ jobs:
           name: ${{ matrix.config.artifact }}
 
       - name: Upload release asset
-        if: github.event.action == 'published'
+        #if: github.event.action == 'published'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
