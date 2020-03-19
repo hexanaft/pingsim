@@ -4,7 +4,10 @@
 name: CMake Build Matrix
 
 # Controls when the action will run. Triggers the workflow on push
-on: [push]
+on: 
+  push:
+  pull_request:
+  release:
     # tags:
     # - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
@@ -71,7 +74,7 @@ jobs:
           choco install ninja cmake
           ninja --version
           cmake --version
-          cmd "${{ matrix.config.artifact }}"
+          cmd "${{ matrix.config.environment_script }}"
 
       - name: Install dependencies on ubuntu
         if: startsWith(matrix.config.os, 'ubuntu')
