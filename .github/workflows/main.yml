@@ -51,7 +51,7 @@ jobs:
         - {
             name: "macOS Latest Clang",
             os: macos-latest,
-            artifact: "macos_clang.tar.gz",
+            artifact: "macos_clang.7z",
             build_type: "Release",
             cc: "clang",
             cxx: "clang++",
@@ -127,8 +127,11 @@ jobs:
         run: cmake --install . --strip
 
       - name: Pack
+        shell: bash
         working-directory: instdir
-        run: ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
+        run: |
+          ls -la
+          ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
 
       - name: Upload
         uses: actions/upload-artifact@v1
