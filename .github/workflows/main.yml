@@ -60,21 +60,30 @@ jobs:
           }
 
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Install dependencies on windows
         if: startsWith(matrix.config.os, 'windows')
-        run: choco install ninja cmake
+        run: |
+          choco install ninja cmake
+          ninja --version
+          cmake --version
 
       - name: Install dependencies on ubuntu
         if: startsWith(matrix.config.os, 'ubuntu')
         run: |
           sudo apt-get update
-          sudo apt-get install ninja-build
+          sudo apt-get install ninja-build cmake
+          ninja --version
+          cmake --version
 
       - name: Install dependencies on macos
         if: startsWith(matrix.config.os, 'macos')
-        run: brew install p7zip cmake
+        run: |
+          brew install p7zip cmake ninja
+          ninja --version
+          cmake --version
 
       # - name: Configure
       #   shell: bash
@@ -127,39 +136,13 @@ jobs:
           path: ./${{ matrix.config.artifact }}
           name: ${{ matrix.config.artifact }}
 
-      # - name: Run a one-line script
-      #   shell: cmake -P {0}
-      #   run: |
-      #     if ("${{ runner.os }}" STREQUAL "Windows")
-      #       execute_process(COMMAND dir /S)
-      #     elseif ("${{ runner.os }}" STREQUAL "Linux")
-      #       execute_process(COMMAND ls -laR)
-      #     elseif ("${{ runner.os }}" STREQUAL "macOS")
-      #       execute_process(COMMAND ls -laR)
-      #     endif()
-
-#       - name: Configure
-#         shell: cmake -P {0}
-#         run: |
-#           execute_process(
-#               COMMAND cmake
-#                 -S .
-#                 -B build
-#                 -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE}
-#               RESULT_VARIABLE result
-#             )
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    #steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    #- uses: actions/checkout@v2
-
-    # Runs a single command using the runners shell
-    #- name: Run a one-line script
-    #  run: echo Hello, world!
-
-    # Runs a set of commands using the runners shell
-    #- name: Run a multi-line script
-    #  run: |
-    #    echo Add other actions to build,
-    #    echo test, and deploy your project.
+      - name: Upload release asset
+        if: github.event.action == 'published'
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./${{ matrix.config.artifact }}
+          asset_name: ${{ matrix.config.artifact }}.zip
+          asset_content_type: application/zip
