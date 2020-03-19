@@ -55,7 +55,7 @@ jobs:
             build_type: "Release",
             cc: "clang",
             cxx: "clang++",
-            archiver: "7za x",
+            archiver: "7za a",
             generators: "Ninja"
           }
 
@@ -130,7 +130,7 @@ jobs:
         shell: bash
         working-directory: instdir
         run: |
-          ls -la
+          ls -laR
           ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
 
       - name: Upload
