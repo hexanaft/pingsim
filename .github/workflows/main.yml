@@ -68,6 +68,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Print env
+        run: |
+          echo github.event.action: ${{ github.event.action }}
+          echo github.event_name: ${{ github.event_name }}
+
+
       - name: Install dependencies on windows
         if: startsWith(matrix.config.os, 'windows')
         run: |
@@ -131,7 +137,9 @@ jobs:
           name: ${{ matrix.config.artifact }}
 
       - name: Upload release asset
-        #if: github.event.action == 'published'
+        if: github.event_name == 'release'
+        # if: github.event.action == 'published'
+        # if: github.event_name == 'release' && github.event.action == 'unassigned'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
