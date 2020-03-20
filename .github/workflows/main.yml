@@ -116,7 +116,7 @@ jobs:
           echo Update ninja =======================================================================
           echo ninja version before
           ninja --version
-        # wget https://github.com/ninja-build/ninja/releases/download/v1.10.0/ninja-linux.zip
+          # wget https://github.com/ninja-build/ninja/releases/download/v1.10.0/ninja-linux.zip
           wget https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
           sudo unzip ninja-linux.zip -d /usr/local/bin/
           sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
@@ -125,8 +125,8 @@ jobs:
           echo Update cmake =======================================================================
           echo cmake version before
           cmake --version
-        # curl --silent "https://api.github.com/repos/Kitware/CMake/releases/latest" | sed -n 's/.*tag_name":\s"\(.*\)".*/\1/p' | head -2
-        # wget https://github.com/Kitware/CMake/releases/latest/download/cmake-3.16.5-Linux-x86_64.sh
+          # curl --silent "https://api.github.com/repos/Kitware/CMake/releases/latest" | sed -n 's/.*tag_name":\s"\(.*\)".*/\1/p' | head -2
+          # wget https://github.com/Kitware/CMake/releases/latest/download/cmake-3.16.5-Linux-x86_64.sh
           wget https://github.com/Kitware/CMake/releases/download/v3.16.5/cmake-3.16.5-Linux-x86_64.sh
           chmod +x cmake-3.16.5-Linux-x86_64.sh
           sudo mkdir /opt/cmake
